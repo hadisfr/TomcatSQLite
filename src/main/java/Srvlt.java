@@ -39,7 +39,9 @@ public class Srvlt extends HttpServlet {
             while (rs.next()) {
                 // read the result set
                 resp.getWriter().write("name = " + rs.getString("name"));
+                resp.getWriter().write("\n");
                 resp.getWriter().write("id = " + rs.getInt("id"));
+                resp.getWriter().write("\n");
             }
         } catch (SQLException e) {
             // if the error message is "out of memory",
