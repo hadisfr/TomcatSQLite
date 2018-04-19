@@ -16,7 +16,12 @@ import java.sql.Statement;
 public class Srvlt extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("<h1>Hello World</h1>");
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (Exception e) {
+            resp.getWriter().write(e.getMessage());
+            return;
+        }
 
         Connection connection = null;
         try {
