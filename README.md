@@ -13,7 +13,7 @@ mvn archetype:generate -D groupId=ir.hadisafari.tomcatSqlite -D artifactId=tomca
 To run project, you can run `deploy.sh`, or simply use `mvn tomcat7:redeploy` after installation of sqlite. After that, the result may be available on [`http://localhost:8080/tomcatSqlite/`](http://localhost:8080/tomcatSqlite/) based on the configurations of your tomcat.
 
 Also, you may need to add these lines to your `$CATALINA_HOME/conf/tomcat-users.xml`:
-```
+```xml
 <role rolename="manager-script"/>
 <user username="admin" password="" roles="manager-script"/>
 ```
