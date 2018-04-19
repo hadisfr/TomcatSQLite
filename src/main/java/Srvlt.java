@@ -27,7 +27,7 @@ public class Srvlt extends HttpServlet {
         try {
             // create a database connection
             connection = DriverManager.getConnection(String.format("jdbc:sqlite:%s",
-                    getServletContext().getRealPath("sample.db")));
+                    getServletContext().getRealPath("WEB-INF/sample.db")));
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
