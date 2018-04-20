@@ -6,11 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 @WebServlet("/")
 public class Srvlt extends HttpServlet {
@@ -30,16 +26,32 @@ public class Srvlt extends HttpServlet {
                     getServletContext().getRealPath("WEB-INF/sample.db")));
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
             statement.executeUpdate("drop table if exists person");
             statement.executeUpdate("create table person (id integer, name string)");
-            statement.executeUpdate("insert into person values(1, 'leo')");
-            statement.executeUpdate("insert into person values(2, 'yui')");
+
+            connection.setAutoCommit(false);
+
+            try {
+                PreparedStatement insertStatement = connection.prepareStatement("insert into person values(?, ?)");
+                insertStatement.setInt(1, 1);
+                insertStatement.setString(2, "leo");
+                insertStatement.executeUpdate();
+                insertStatement.setInt(1, 2);
+                insertStatement.setString(2, "yui");
+                insertStatement.executeUpdate();
+                connection.commit();
+            } catch (SQLException e) {
+                resp.getWriter().write(e.getMessage());
+                connection.rollback();
+            }
+
+            connection.setAutoCommit(true);
+
             ResultSet rs = statement.executeQuery("select * from person");
             while (rs.next()) {
                 // read the result set
                 resp.getWriter().write("name = " + rs.getString("name"));
-                resp.getWriter().write("\n");
+                resp.getWriter().write(", ");
                 resp.getWriter().write("id = " + rs.getInt("id"));
                 resp.getWriter().write("\n");
             }
