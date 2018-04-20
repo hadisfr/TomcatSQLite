@@ -36,7 +36,6 @@
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
                 </configuration>
-
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
